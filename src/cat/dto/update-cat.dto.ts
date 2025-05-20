@@ -5,4 +5,8 @@ import { CreateCatDto } from './create-cat.dto';
 //class as optional (foreach (@isOptional prop?: Base[prop]))
 //note: this is only when update-cat.dto is used; using create-cat.dto will trow an error in thye absence of required
 //fields
-export class UpdateCatDto extends PartialType(CreateCatDto) {}
+export class UpdateCatDto extends PartialType(CreateCatDto) {
+    name?: string;
+    age?: number;
+    isNice: boolean;
+}

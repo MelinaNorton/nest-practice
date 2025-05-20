@@ -61,11 +61,14 @@ export class CatService {
     }
     const newIsNice = !existing.isNice;
     const temperment = newIsNice? 'nicer':'meaner';
-    
-    console.log(`This action makes a cat #${temperment}`);
 
+    console.log(`This action makes a cat #${temperment}`);
+    const newPayload = {
+      ...updateCatDto,
+      isNice : newIsNice
+    }
     const updated = await this.catModel
-      .findOneAndUpdate(filter, {isNice:newIsNice}, {new:true})
+      .findOneAndUpdate(filter, newPayload, {new:true})
       .exec();
     if(!updated){
       throw new NotFoundException('No cat found by that name!');
