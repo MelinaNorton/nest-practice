@@ -54,9 +54,14 @@ export class CatService {
   //directly to the fineOneAndUpdate() function
   //the handling of the contingency !updated is NECESSARY- so that the program can ensure that the Promise<Cat> is 
   //upheld
-  async update(filter: CatFilter, isNice: boolean, updateCatDto: UpdateCatDto): Promise<Cat> {
-    const newIsNice = !isNice;
+  async update(filter: CatFilter, updateCatDto: UpdateCatDto): Promise<Cat> {
+    const existing = await this.catModel.findOne(filter).exec();
+    if (!existing) {
+      throw new NotFoundException(`Cat "${filter.name}" not found`);
+    }
+    const newIsNice = !existing.isNice;
     const temperment = newIsNice? 'nicer':'meaner';
+    
     console.log(`This action makes a cat #${temperment}`);
 
     const updated = await this.catModel

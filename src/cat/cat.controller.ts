@@ -24,8 +24,8 @@ export class CatController {
   }
 
   @Patch(':name')
-  update(@Param() filter: CatFilter, @Query('isNice', ParseBoolPipe) isNice: boolean, @Body() updateCatDto: UpdateCatDto) {
-    return this.catService.update(filter, isNice, updateCatDto);
+  update(@Param() filter: CatFilter, @Body() updateCatDto: UpdateCatDto) {
+    return this.catService.update(filter, updateCatDto);
   }
 
   @Delete(':name')
