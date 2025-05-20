@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseBoolPipe , Query} from '@nestjs/common';
 import { CatService } from './cat.service';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
+import { CatFilter } from './cat.service';
 
 @Controller('cat')
 export class CatController {
@@ -17,18 +18,18 @@ export class CatController {
     return this.catService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.catService.findOne(+id);
+  @Get(':name')
+  findOne(@Param('name') id: string) {
+    return this.catService.findOneByName('name');
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCatDto: UpdateCatDto) {
-    return this.catService.update(+id, updateCatDto);
+  @Patch(':name')
+  update(@Param() filter: CatFilter, @Query('isNice', ParseBoolPipe) isNice: boolean, @Body() updateCatDto: UpdateCatDto) {
+    return this.catService.update(filter, isNice, updateCatDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.catService.remove(+id);
+  @Delete(':name')
+  remove(@Param('name') name: string) {
+    return this.catService.remove(name);
   }
 }
