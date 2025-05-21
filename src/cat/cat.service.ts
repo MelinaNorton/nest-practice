@@ -44,9 +44,12 @@ export class CatService {
 
   //this function uses the string parameter name and promises one of two things- a cat documents (of shape Cat), or
   //null. This is acheived by using catModel's built-in method findOne with the name parameter
-  async findOneByName(name: string): Promise<Cat | null> {
-    const cat = await this.catModel.findOne({ name }).exec();
-    return cat;
+  async findOneByName(name: string): Promise<Cat> {
+    const found = await this.catModel.findOne({ name }).exec();
+    if(!found){
+      throw new NotFoundException(`Cat "${name}" not found`);
+    }
+    return found;
   }
 
   //this function updates the isNice field of a cat found through the CatFilter (we assume the only filter applied)

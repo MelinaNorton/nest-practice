@@ -19,8 +19,8 @@ export class CatController {
   }
 
   @Get(':name')
-  findOne(@Param('name') id: string) {
-    return this.catService.findOneByName('name');
+  findOne(@Param('name') name: string) {
+    return this.catService.findOneByName(name);
   }
 
   @Patch(':name')
